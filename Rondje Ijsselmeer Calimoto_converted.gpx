@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:tt="TT" version="1.1" creator="TomTom MyDrive">
+  <rte>
+    <name>Rondje Ijsselmeer met startpunt Elburg</name>
+    <rtept lat="52.449959" lon="5.830648">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.521168" lon="5.488316">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.690114" lon="5.28813">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.730121" lon="5.173322">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.800284" lon="5.050273">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.885248" lon="4.938553">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.92797" lon="5.02699">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.929316" lon="5.037062">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="53.088405" lon="5.369276">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.512458" lon="5.884414">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.482421" lon="5.849842">
+      <type>TT_HARD</type>
+    </rtept>
+    <rtept lat="52.449959" lon="5.830648">
+      <type>TT_HARD</type>
+    </rtept>
+  </rte>
+</gpx>
