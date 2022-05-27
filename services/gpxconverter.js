@@ -21,8 +21,6 @@ module.exports = function() {
         .on('change', filePath => console.log(`File ${filePath} has been changed`))
         .on('unlink', filePath => console.log(`File ${filePath} has been removed`))
 
-        
-
     // Remove files after upload
     setInterval(() => {
         const convertedFilesPath = './gpxfiles_converted'
@@ -32,16 +30,12 @@ module.exports = function() {
             const convertedFilePath = path.join(convertedFilesPath, file)
 
             fs.stat(convertedFilePath, (err, stats) => {
-                let endTime, now
-                
                 if (err) {
                     console.error(err);
                 }
 
-                now = new Date().getTime();
-                endTime = new Date(stats.ctime).getTime() + 60000; //3600000
-
-                if (now > endTime) {
+                //3600000
+                if (fileOlderThen(stats, 60000)) {
                     fs.unlink(convertedFilePath, (err) => {
                         if (err) throw err
                     })
@@ -49,6 +43,13 @@ module.exports = function() {
             });
         })
     }, 1000)
+
+    function fileOlderThen(stats, timeInMilliSeconds) {
+        const now = new Date().getTime()
+        const endTime = new Date(stats.ctime).getTime() + timeInMilliSeconds
+
+        return now > endTime
+    }
 
     function calimotoToTomTom(filePath, route = true, track = false) {
         return new Promise((resolve, reject) => {
