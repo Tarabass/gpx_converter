@@ -3,6 +3,7 @@ const express = require('express')
 const fileUpload = require('express-fileupload')
 const app = express()
 const port = 3000
+const host = 'localhost'
 const path = require('path')
 const servicesFolder = path.join(__dirname, 'services')
 const GPXConverter = require(`${servicesFolder}/gpxconverter.js`)
@@ -10,6 +11,29 @@ const EventEmitter = require('events');
 global.eventEmitter = new EventEmitter();
 const GPXConverterModule = require(`${path.join(__dirname, 'modules')}/gpxconverter.js`)
 let fileProcessed = false;
+
+const httpServer = app.listen(port, host, (err) => {
+    if (err)
+        console.log(err)
+    
+    console.log("Server listening on PORT", port)
+})
+// --
+
+// Initializing socket.io object
+const { Server } = require('socket.io')
+const io = new Server(httpServer,{
+    // Specifying CORS 
+    cors: {
+        origin: host,
+    }
+})
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+});
+
+const liveData = io.of('/liveData')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -68,6 +92,10 @@ app.post('/upload', async (req, res) => {
             console.log('fileProcessed', fileProcessed)
             if(fileProcessed) {
                 console.log(GPXConverterModule.getErrors());
+                console.log(`http://${host}:${port}/gpxfiles_converted/${sampleFile.name}`);
+
+                if(GPXConverterModule.getErrors().length === 0)
+                    liveData.emit('test-event', { url: `http://${host}:${port}/To MKCmoto_converted.gpx`, name: sampleFile.name })
 
                 clearInterval(ival)
                 // res.sendStatus(200)
@@ -128,8 +156,3 @@ function checkFile(uploadedFile, multiple = false) {
 function isGPXFile(filePath) {
     return path.extname(filePath).toLowerCase() === '.gpx'
 }
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
-// --

@@ -11,8 +11,8 @@ fileInput.onchange = () => {
 
 async function onSubmit(form) {
 	await fetch('/upload', {
-    	method: 'POST',
-    	body: new FormData(form)
+		method: 'POST',
+		body: new FormData(form)
 	})
 	.then(response => {
 		if(response.statusText === 'OK')
@@ -25,3 +25,10 @@ async function onSubmit(form) {
 			formContainer.style.backgroundColor = 'red'
 	})
 }
+
+const msgBox = document.getElementById('test')
+const socket = io('ws://localhost:3000/liveData', {transports: ['websocket']})
+
+socket.on('test-event',(data)=>{
+	msgBox.innerHTML += `<a href="${data.url}">${data.name}</a><br>`
+})

@@ -14,6 +14,22 @@
             <p></p>
         </form>
     </div>
+    <div>
+        <ul>
+            <% for(var i=0; i<files.length; i++) {%>
+                <li><%= files[i] %></li>
+            <% } %>
+        </ul>
+    </div>
+    <div>
+        <ul>
+            <% for(var i=0; i<errors.length; i++) {%>
+                <li><%= errors[i] %></li>
+            <% } %>
+        </ul>
+    </div>
+    <div id="test"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" crossorigin="anonymous"></script>
     <script src="client.js" type="application/javascript"></script>
 </body>
 </html>
