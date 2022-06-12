@@ -76,6 +76,10 @@ module.exports = function() {
                 const data = fs.readFileSync(filePath)
 
                 parseString(data, (err, result) => {
+                    if(result.gpx.$.creator !== 'https://calimoto.com') {
+                        throw Error('Unknown GPX Creator')
+                    }
+                    
                     // Convert WapyPoints to RoutePoints and add type 'TT_HARD'
                     const rtept = []
 
