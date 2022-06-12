@@ -128,6 +128,10 @@ module.exports = function() {
                     resolve({ message: 'Done', convertedPath: convertedFilePath })
                 })
             } catch (error) {
+                // Delete uploaded file
+                fs.unlinkSync(filePath)
+                // --
+
                 reject(error)
             }
         })
