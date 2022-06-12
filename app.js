@@ -6,6 +6,9 @@ const port = 3000
 const path = require('path')
 const servicesFolder = path.join(__dirname, 'services')
 const GPXConverter = require(`${servicesFolder}/gpxconverter.js`)
+const EventEmitter = require('events');
+global.eventEmitter = new EventEmitter();
+let fileProcessed = false;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,7 +31,13 @@ app.use(fileUpload({
 //     next()
 // });
 
+eventEmitter.on('processed', (result) => {
+    console.log(result);
+    fileProcessed = true
+});
+
 app.get('/', (req, res) => {
+    console.log('fileProcessed app.get', fileProcessed);
     res.render('index', {
         title: 'Calimoto to TomTom Converter'
     });
