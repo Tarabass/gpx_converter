@@ -1,4 +1,4 @@
-const fileInput = document.getElementById('sampleFile')
+const fileInput = document.getElementById('gpxfile')
 const p = document.querySelector('p')
 const formContainer = document.getElementById('formcontainer')
 

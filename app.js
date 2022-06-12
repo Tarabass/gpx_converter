@@ -80,22 +80,22 @@ app.post('/upload', async (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0)
         return res.status(400).send('No files were uploaded.')
 
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    const sampleFile = req.files.sampleFile
-    const multiple = Array.isArray(sampleFile)
+    // The name of the input field (i.e. "gpxfile") is used to retrieve the uploaded file
+    const gpxFile = req.files.gpxfile
+    const multiple = Array.isArray(gpxFile)
 
     try {
-        await checkFile(sampleFile, multiple)
-        await moveFile(sampleFile, multiple)
+        await checkFile(gpxFile, multiple)
+        await moveFile(gpxFile, multiple)
 
         const ival = setInterval(() => {
             console.log('fileProcessed', fileProcessed)
             if(fileProcessed) {
                 console.log(GPXConverterModule.getErrors());
-                console.log(`http://${host}:${port}/gpxfiles_converted/${sampleFile.name}`);
+                console.log(`http://${host}:${port}/gpxfiles_converted/${gpxFile.name}`);
 
                 if(GPXConverterModule.getErrors().length === 0)
-                    liveData.emit('test-event', { url: `http://${host}:${port}/To MKCmoto_converted.gpx`, name: sampleFile.name })
+                    liveData.emit('test-event', { url: `http://${host}:${port}/To MKCmoto_converted.gpx`, name: gpxFile.name })
 
                 clearInterval(ival)
                 // res.sendStatus(200)
