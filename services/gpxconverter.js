@@ -9,6 +9,7 @@ module.exports = function() {
     const xml2js = require('xml2js')
     const parseString = xml2js.parseString
     const builder = new xml2js.Builder()
+    require('dotenv').config({path: './.env'})
 
     // Setup watchers for chokidar
     watcher
@@ -56,7 +57,7 @@ module.exports = function() {
             try {
                 const fileName = path.basename(filePath)
                 const convertedFileName = `${fileName.substring(0, fileName.lastIndexOf('.'))}_converted.gpx`
-                const convertedFolder = 'gpxfiles_converted'
+                const convertedFolder = process.env.CONVERTED_FOLDER
                 const convertedFilePath = `${convertedFolder}\\${convertedFileName}`
         
                 // content = content.replace(/<metadata>[\s\S]*?<\/metadata>/m, '')
