@@ -8,6 +8,7 @@ const servicesFolder = path.join(__dirname, 'services')
 const GPXConverter = require(`${servicesFolder}/gpxconverter.js`)
 const EventEmitter = require('events');
 global.eventEmitter = new EventEmitter();
+const GPXConverterModule = require(`${path.join(__dirname, 'modules')}/gpxconverter.js`)
 let fileProcessed = false;
 
 // view engine setup
@@ -37,10 +38,18 @@ eventEmitter.on('processed', (result) => {
 });
 
 app.get('/', (req, res) => {
+    // GPXConverterModule.addError('error 123')
+    // console.log(process.env.CONVERTED_FOLDER)
     console.log('fileProcessed app.get', fileProcessed);
+    const files = ['fsdfsf_converted.gpx']
+    const errors = GPXConverterModule.getErrors()
+    GPXConverterModule.clearErrors()
+
     res.render('index', {
-        title: 'Calimoto to TomTom Converter'
-    });
+        title: 'Calimoto to TomTom Converter',
+        files,
+        errors: errors
+    })
 })
 
 app.post('/upload', async (req, res) => {
@@ -48,15 +57,29 @@ app.post('/upload', async (req, res) => {
         return res.status(400).send('No files were uploaded.')
 
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    const sampleFile = req.files.sampleFile;
-    const multiple = Array.isArray(sampleFile);
+    const sampleFile = req.files.sampleFile
+    const multiple = Array.isArray(sampleFile)
 
     try {
         await checkFile(sampleFile, multiple)
         await moveFile(sampleFile, multiple)
 
-        res.sendStatus(200)
+        const ival = setInterval(() => {
+            console.log('fileProcessed', fileProcessed)
+            if(fileProcessed) {
+                console.log(GPXConverterModule.getErrors());
+
+                clearInterval(ival)
+                // res.sendStatus(200)
+
+                fileProcessed = false
+                res.redirect(GPXConverterModule.getErrors().length > 0 ? 500 : 200, '/')
+            }
+        }, 100);
+
+        console.log('upload success');
     } catch (error) {
+        console.log('upload error');
         res.status(500).send(error)
     }
 })
