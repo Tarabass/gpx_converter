@@ -9,6 +9,7 @@ module.exports = function() {
     const xml2js = require('xml2js')
     const parseString = xml2js.parseString
     const builder = new xml2js.Builder()
+    const GPXConverterModule = require(`${path.join(__dirname, '../modules')}/gpxconverter.js`)
     require('dotenv').config({path: './.env'})
 
     // Setup watchers for chokidar
@@ -17,6 +18,11 @@ module.exports = function() {
             console.log(`File ${filePath} has been added`)
             calimotoToTomTom(filePath).then(result => {
                 console.log(result.message)
+                eventEmitter.emit('processed', result.message);
+            }).catch(err => {
+                console.log(err);
+                GPXConverterModule.addError(err)
+                eventEmitter.emit('processed', err);
             })
         })
         .on('change', filePath => console.log(`File ${filePath} has been changed`))
