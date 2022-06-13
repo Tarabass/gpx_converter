@@ -42,7 +42,7 @@ module.exports = function() {
                 }
 
                 //3600000
-                if (fileOlderThen(stats, process.env.TTL_CONVERTED_FILES)) {
+                if (fileOlderThen(stats, parseInt(process.env.TTL_CONVERTED_FILES))) {
                     fs.unlink(convertedFilePath, (err) => {
                         if (err) throw err
                     })
