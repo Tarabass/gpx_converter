@@ -30,7 +30,7 @@ module.exports = function() {
 
     // Remove files after upload
     setInterval(() => {
-        const convertedFilesPath = './gpxfiles_converted'
+        const convertedFilesPath = process.env.CONVERTED_FOLDER
         const files = fs.readdirSync(convertedFilesPath)
         
         files.forEach(file => {
